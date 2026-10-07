@@ -1,0 +1,7 @@
+int sumExceptFirstLast(int* arr, int n) {
+    int i,sum=0;
+    for(i=1;i<n-1;i++){
+        sum += arr[i];
+    }
+return sum;
+}
