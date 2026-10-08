@@ -1,0 +1,48 @@
+#include <vector>
+#include <algorithm>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    long long findMaxProduct(vector<int>& arr) {
+        int n = arr.size();
+        if (n == 1) return arr[0];
+        long long MOD = 1e9 + 7;
+        long long product = 1;
+        int count_neg = 0;
+        int count_zero = 0;
+        int count_pos = 0;
+        int smallest_neg = std::numeric_limits<int>::min(); 
+
+        for (int x : arr) {
+            if (x == 0) {
+                count_zero++;
+            } else if (x < 0) {
+                count_neg++;
+                smallest_neg = max(smallest_neg, x);
+            } else {
+                count_pos++;
+            }
+        }
+
+        if (count_zero == n || (count_neg == 1 && count_zero + count_neg == n)) {
+            return 0;
+        }
+        for (int x : arr) {
+            if (x == 0) continue; 
+            if (x == smallest_neg && count_neg % 2 != 0) {
+                count_neg--; 
+                continue;
+            }
+            
+            product = (product * x) % MOD;
+        }
+        if (product < 0) {
+            product += MOD;
+        }
+
+        return product;
+    }
+};
